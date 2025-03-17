@@ -3,9 +3,9 @@ package dev.goral.responses;
 import dev.goral.interfaces.Response;
 
 public class WeatherResponse implements Response {
-    private String location;
-    private String timePhrase;
-    private double temperature;
+    private final String location;
+    private final String timePhrase;
+    private final double temperature;
 
     public WeatherResponse(String location, String timePhrase, double temperature) {
         this.location = location;
@@ -25,18 +25,6 @@ public class WeatherResponse implements Response {
         return temperature;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public void setTimePhrase(String timePhrase) {
-        this.timePhrase = timePhrase;
-    }
-
-    public void setTemperature(double temperature) {
-        this.temperature = temperature;
-    }
-
     @Override
     public String toString() {
         int tempRounded = (int)Math.round(temperature);
@@ -46,7 +34,10 @@ public class WeatherResponse implements Response {
             return String.format("It is %d°C in %s %s.", tempRounded, location, timePhrase);
         } else if (timePhrase.equalsIgnoreCase("tomorrow")){
             return String.format("It will be %d°C in %s %s.", tempRounded, location, timePhrase);
+        } else if (timePhrase.contains("ago") || timePhrase.contains("yesterday")) {
+            return String.format("It was %d°C in %s %s.", tempRounded, location, timePhrase);
         }
+
         return String.format("It will be %d°C in %s in %s.", tempRounded, location, timePhrase);
     }
 
